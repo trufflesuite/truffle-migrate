@@ -188,7 +188,9 @@ var Migrate = {
       clone[key] = options[key];
     });
 
-    clone.provider = this.wrapProvider(options.provider, options.logger);
+    clone.logger = clone.logger || {log: function() {}};
+
+    clone.provider = this.wrapProvider(options.provider, clone.logger);
     clone.resolver = this.wrapResolver(options.resolver, clone.provider);
 
     async.eachSeries(migrations, function(migration, finished) {
