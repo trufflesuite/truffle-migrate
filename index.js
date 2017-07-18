@@ -179,19 +179,19 @@ var Migrate = {
 
   runMigrations: function(migrations, options, callback) {
 
-    if (options.logger) {
-      // Perform a shallow clone of the options object
-      // so that we can override the provider option without
-      // changing the original options object passed in.
-      var clone = {};
+    // Perform a shallow clone of the options object
+    // so that we can override the provider option without
+    // changing the original options object passed in.
+    var clone = {};
 
-      Object.keys(options).forEach(function(key) {
-        clone[key] = options[key];
-      });
+    Object.keys(options).forEach(function(key) {
+      clone[key] = options[key];
+    });
 
-      clone.provider = this.wrapProvider(options.provider, options.logger);
-      clone.resolver = this.wrapResolver(options.resolver, clone.provider);
-    }
+    clone.logger = clone.logger || {log: function() {}};
+
+    clone.provider = this.wrapProvider(options.provider, clone.logger);
+    clone.resolver = this.wrapResolver(options.resolver, clone.provider);
 
     async.eachSeries(migrations, function(migration, finished) {
       migration.run(clone, function(err) {
