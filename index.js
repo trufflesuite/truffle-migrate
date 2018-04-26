@@ -80,7 +80,7 @@ Migration.prototype.run = function(options, callback) {
         return callback(new Error("Migration " + self.file + " invalid or does not take any parameters"));
       }
       const result = fn(deployer, options.network, accounts);
-      if (result.then) {
+      if (result && result.then) {
         result.then(finish)
       } else {
         finish();
