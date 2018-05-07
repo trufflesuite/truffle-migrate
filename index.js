@@ -76,9 +76,10 @@ Migration.prototype.run = function(options, callback) {
       resolver: resolver,
       args: [deployer],
     }, function(err, fn) {
-      if (!fn || !fn.length || fn.length == 0) {
-        return callback(new Error("Migration " + self.file + " invalid or does not take any parameters"));
+      if (!fn) {
+        return callback(new Error("Migration " + self.file + " does not export a default function!"));
       }
+
       fn(deployer, options.network, accounts);
       finish();
     });
