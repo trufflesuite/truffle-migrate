@@ -79,8 +79,16 @@ Migration.prototype.run = function(options, callback) {
       if (!fn || !fn.length || fn.length == 0) {
         return callback(new Error("Migration " + self.file + " invalid or does not take any parameters"));
       }
-      fn(deployer, options.network, accounts);
-      finish();
+      var migrationExecutionResult = fn(deployer, options.network, accounts);
+      if (migrationExecutionResult instanceof Object && migrationExecutionResult.then instanceof Function) {
+          migrationExecutionResult.then(function () {
+            finish();
+          }, function (err) {
+            finish(err);
+          })
+      } else {    
+        finish();
+      }
     });
   });
 };
