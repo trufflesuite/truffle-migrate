@@ -24,6 +24,7 @@
   "homepage": "https://github.com/trufflesuite/truffle-migrate#readme",
   "dependencies": {
     "async": "^2.1.4",
+    "emittery": "^0.4.0",
     "node-dir": "^0.1.16",
     "truffle-deployer": "^2.0.5",
     "truffle-expect": "^0.0.3",
